@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: nginx-rollout
+  labels:
+    app: nginx-rollout
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx-rollout
+  template:
+    metadata:
+      labels:
+        app: nginx-rollout
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.23-alpine   # Canary側に上げたいイメージ
+        ports:
+        - containerPort: 80
+
+  strategy:
+    canary:
+      canaryService: nginx-canary
+      stableService: nginx-stable
+      steps:
+        - setWeight: 0
+        - pause: { duration: 10 }  # 10秒待ってから次へ (手動承認にしたい場合はdurationを省略してpauseだけ)
+        - setWeight: 20
+        - pause: { duration: 10 }
+        - setWeight: 50
+        - pause: { duration: 10 }
+        - setWeight: 100
