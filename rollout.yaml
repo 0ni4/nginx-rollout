@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.27.3-perl   # バージョン
+        image: nginx:1.27-perl   # バージョン
         ports:
         - containerPort: 80
 
