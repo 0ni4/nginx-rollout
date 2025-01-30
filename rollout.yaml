@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.23-alpine   # Canary側に上げたいイメージ
+        image: nginx:1.27-perl   # Canary側に上げたいイメージ
         ports:
         - containerPort: 80
 
